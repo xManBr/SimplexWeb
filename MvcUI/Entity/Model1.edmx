@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SimplexModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Interesse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Interesse" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="url" Type="nvarchar" MaxLength="255" />
+          <Property Name="urlanterior" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="LanguageId" />
+          </Key>
+          <Property Name="LanguageId" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LanguageCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="LanguageName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="ObjectTypeId" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="StatusId" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="TranslationId" Type="int" />
+        </EntityType>
+        <EntityType Name="Translation">
+          <Key>
+            <PropertyRef Name="TranslationId" />
+            <PropertyRef Name="LanguageId" />
+          </Key>
+          <Property Name="TranslationId" Type="int" Nullable="false" />
+          <Property Name="LanguageId" Type="smallint" Nullable="false" />
+          <Property Name="LabelName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="LengthNumber" Type="smallint" />
+          <Property Name="DescriptionName" Type="nvarchar" MaxLength="255" />
+          <Property Name="CreationDate" Type="datetime" Nullable="false" />
+          <Property Name="ObjectTypeId" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="StatusId" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Simplex.common.TranslationDate' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TranslationDate">
+          <Key>
+            <PropertyRef Name="LastModifiedDate" />
+          </Key>
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Translati__Langu__24927208">
+          <End Role="Language" Type="Self.Language" Multiplicity="1" />
+          <End Role="Translation" Type="Self.Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Translation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Translati__Langu__276EDEB3">
+          <End Role="Language" Type="Self.Language" Multiplicity="1" />
+          <End Role="Translation" Type="Self.Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Translation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="Interesse_i" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="business">
+          <Parameter Name="IN_Interesse" Type="nvarchar" Mode="In" />
+          <Parameter Name="IN_ur" Type="nvarchar" Mode="In" />
+          <Parameter Name="IN_urlanterior" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="p_Interesse_s" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="business" />
+        <Function Name="p_Language_s" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="common">
+          <Parameter Name="IN_LanguageId" Type="smallint" Mode="In" />
+        </Function>
+        <Function Name="p_Translation_Ajust" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="common">
+          <Parameter Name="IN_LabelName" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="p_Translation_s" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="common">
+          <Parameter Name="IN_TranslationId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="p_TranslationDate_s" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="common" />
+        <EntityContainer Name="SimplexModelStoreContainer">
+          <EntitySet Name="Interesse" EntityType="Self.Interesse" Schema="business" store:Type="Tables" />
+          <EntitySet Name="Language" EntityType="Self.Language" Schema="common" store:Type="Tables" />
+          <EntitySet Name="Translation" EntityType="Self.Translation" Schema="common" store:Type="Tables" />
+          <EntitySet Name="TranslationDate" EntityType="Self.TranslationDate" store:Type="Tables" store:Schema="common">
+            <DefiningQuery>SELECT 
+    [TranslationDate].[LastModifiedDate] AS [LastModifiedDate]
+    FROM [common].[TranslationDate] AS [TranslationDate]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__Translati__Langu__24927208" Association="Self.FK__Translati__Langu__24927208">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="Translation" EntitySet="Translation" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Translati__Langu__276EDEB3" Association="Self.FK__Translati__Langu__276EDEB3">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="Translation" EntitySet="Translation" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SimplexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="LanguageId" />
+          </Key>
+          <Property Name="LanguageId" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LanguageCode" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LanguageName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ObjectTypeId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="TranslationId" Type="Int32" />
+          <NavigationProperty Name="Translation" Relationship="Self.FK__Translati__Langu__15502E78" FromRole="Language" ToRole="Translation" />
+        </EntityType>
+        <EntityType Name="Translation">
+          <Key>
+            <PropertyRef Name="TranslationId" />
+            <PropertyRef Name="LanguageId" />
+          </Key>
+          <Property Name="TranslationId" Type="Int32" Nullable="false" />
+          <Property Name="LanguageId" Type="Int16" Nullable="false" />
+          <Property Name="LabelName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LengthNumber" Type="Int16" />
+          <Property Name="DescriptionName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ObjectTypeId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="StatusId" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Language" Relationship="Self.FK__Translati__Langu__15502E78" FromRole="Translation" ToRole="Language" />
+        </EntityType>
+        <EntityType Name="TranslationDate">
+          <Key>
+            <PropertyRef Name="LastModifiedDate" />
+          </Key>
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <Association Name="FK__Translati__Langu__15502E78">
+          <End Role="Language" Type="Self.Language" Multiplicity="1" />
+          <End Role="Translation" Type="Self.Translation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Language">
+              <PropertyRef Name="LanguageId" />
+            </Principal>
+            <Dependent Role="Translation">
+              <PropertyRef Name="LanguageId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SimplexEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Language" EntityType="Self.Language" />
+          <EntitySet Name="Translation" EntityType="Self.Translation" />
+          <EntitySet Name="TranslationDate" EntityType="Self.TranslationDate" />
+          <AssociationSet Name="FK__Translati__Langu__15502E78" Association="Self.FK__Translati__Langu__15502E78">
+            <End Role="Language" EntitySet="Language" />
+            <End Role="Translation" EntitySet="Translation" />
+          </AssociationSet>
+          <FunctionImport Name="LanguageSelect" ReturnType="Collection(SimplexModel.LanguageSelectResult)">
+          <Parameter Name="IN_LanguageId" Mode="In" Type="Int16" />
+          </FunctionImport>
+          <FunctionImport Name="TranslationAjust">
+          <Parameter Name="IN_LabelName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="TranslationSelect" ReturnType="Collection(SimplexModel.TranslationSelectResult)">
+          <Parameter Name="IN_TranslationId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TranslationDateSelect" ReturnType="Collection(DateTime)" />
+          <EntitySet Name="Interesse" EntityType="SimplexModel.Interesse" />
+          <FunctionImport Name="InteresseInsert">
+            <Parameter Name="IN_Interesse" Mode="In" Type="String" />
+            <Parameter Name="IN_ur" Mode="In" Type="String" />
+            <Parameter Name="IN_urlanterior" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="InteresseSelect" ReturnType="Collection(SimplexModel.InteresseSelectResult)" />
+        </EntityContainer>
+        <ComplexType Name="p_Language_s_Result">
+          <Property Type="Int16" Name="LanguageId" Nullable="false" />
+          <Property Type="String" Name="LanguageCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="LanguageName" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ObjectTypeId" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="StatusId" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="LastModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="p_Translation_s_Result">
+          <Property Type="Int32" Name="TranslationId" Nullable="false" />
+          <Property Type="Int16" Name="LanguageId" Nullable="false" />
+          <Property Type="String" Name="LabelName" Nullable="false" MaxLength="255" />
+          <Property Type="Int16" Name="LengthNumber" Nullable="true" />
+          <Property Type="String" Name="DescriptionName" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ObjectTypeId" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="StatusId" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="LastModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="LanguageCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="LabelCode" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="TranslationSelectResult">
+          <Property Type="Int32" Name="TranslationId" Nullable="false" />
+          <Property Type="Int16" Name="LanguageId" Nullable="false" />
+          <Property Type="String" Name="LabelName" Nullable="false" MaxLength="255" />
+          <Property Type="Int16" Name="LengthNumber" Nullable="true" />
+          <Property Type="String" Name="DescriptionName" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ObjectTypeId" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="StatusId" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="LastModifiedDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="LanguageCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="LabelCode" Nullable="false" MaxLength="1" />
+        </ComplexType>
+        <ComplexType Name="LanguageSelectResult">
+          <Property Type="Int16" Name="LanguageId" Nullable="false" />
+          <Property Type="String" Name="LanguageCode" Nullable="false" MaxLength="10" />
+          <Property Type="String" Name="LanguageName" Nullable="false" MaxLength="255" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="23" />
+          <Property Type="String" Name="ObjectTypeId" Nullable="false" MaxLength="5" />
+          <Property Type="String" Name="StatusId" Nullable="false" MaxLength="5" />
+          <Property Type="DateTime" Name="LastModifiedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <EntityType Name="Interesse">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Interesse1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="CreationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="url" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="urlanterior" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <ComplexType Name="p_Interesse_s_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Interesse" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="InteresseSelectResult">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Interesse" Nullable="true" MaxLength="255" />
+          <Property Type="DateTime" Name="CreationDate" Nullable="false" Precision="23" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SimplexModelStoreContainer" CdmEntityContainer="SimplexEntities">
+          <EntitySetMapping Name="Language">
+            <EntityTypeMapping TypeName="SimplexModel.Language">
+              <MappingFragment StoreEntitySet="Language">
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ObjectTypeId" ColumnName="ObjectTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="TranslationId" ColumnName="TranslationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Translation">
+            <EntityTypeMapping TypeName="SimplexModel.Translation">
+              <MappingFragment StoreEntitySet="Translation">
+                <ScalarProperty Name="TranslationId" ColumnName="TranslationId" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="LabelName" ColumnName="LabelName" />
+                <ScalarProperty Name="LengthNumber" ColumnName="LengthNumber" />
+                <ScalarProperty Name="DescriptionName" ColumnName="DescriptionName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ObjectTypeId" ColumnName="ObjectTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TranslationDate">
+            <EntityTypeMapping TypeName="SimplexModel.TranslationDate">
+              <MappingFragment StoreEntitySet="TranslationDate">
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="LanguageSelect" FunctionName="SimplexModel.Store.p_Language_s">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SimplexModel.LanguageSelectResult">
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ObjectTypeId" ColumnName="ObjectTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TranslationAjust" FunctionName="SimplexModel.Store.p_Translation_Ajust" />
+          <FunctionImportMapping FunctionImportName="TranslationSelect" FunctionName="SimplexModel.Store.p_Translation_s">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SimplexModel.TranslationSelectResult">
+                <ScalarProperty Name="TranslationId" ColumnName="TranslationId" />
+                <ScalarProperty Name="LanguageId" ColumnName="LanguageId" />
+                <ScalarProperty Name="LabelName" ColumnName="LabelName" />
+                <ScalarProperty Name="LengthNumber" ColumnName="LengthNumber" />
+                <ScalarProperty Name="DescriptionName" ColumnName="DescriptionName" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="ObjectTypeId" ColumnName="ObjectTypeId" />
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="LanguageCode" ColumnName="LanguageCode" />
+                <ScalarProperty Name="LabelCode" ColumnName="LabelCode" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TranslationDateSelect" FunctionName="SimplexModel.Store.p_TranslationDate_s" />
+          <EntitySetMapping Name="Interesse">
+            <EntityTypeMapping TypeName="SimplexModel.Interesse">
+              <MappingFragment StoreEntitySet="Interesse">
+                <ScalarProperty Name="urlanterior" ColumnName="urlanterior" />
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+                <ScalarProperty Name="Interesse1" ColumnName="Interesse" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InteresseInsert" FunctionName="SimplexModel.Store.Interesse_i" />
+          <FunctionImportMapping FunctionImportName="InteresseSelect" FunctionName="SimplexModel.Store.p_Interesse_s">
+          <ResultMapping>
+              <ComplexTypeMapping TypeName="SimplexModel.InteresseSelectResult">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Interesse" ColumnName="Interesse" />
+                <ScalarProperty Name="CreationDate" ColumnName="CreationDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

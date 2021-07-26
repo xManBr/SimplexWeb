@@ -1,0 +1,44 @@
+﻿@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("Help", (Int16)ViewBag.LanguageId);
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Simplex 2016-01 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1847611814626404"
+             data-ad-slot="6069916587"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+</div>
+
+
+<h4>@BaseMvc.GetLabel("SimplexBasicInformation", (Int16)ViewBag.LanguageId).</h4>
+<hr />
+
+<div class="row">
+    <div class="col-md-8">
+        <p>
+            @BaseMvc.GetLabel("EnterTheNumberOfDecisionVariablesAndTheNumberOfRestrictions", (Int16)ViewBag.LanguageId).
+            @BaseMvc.GetLabel("Theapplicationwillgenerateatablewiththeappropriatefieldsformodelingproblem", (Int16)ViewBag.LanguageId).
+            @BaseMvc.GetLabel("You´llgetthefinalresultofoptimizationorcheckthecalculationsstepbystep", (Int16)ViewBag.LanguageId).
+            @BaseMvc.GetLabel("Thisapplicationisfreeuseonlyforacademicpurposes", (Int16)ViewBag.LanguageId).
+            @BaseMvc.GetLabel("Theauthorisnotresponsiblefortheresultsattributedtootherpurposes", (Int16)ViewBag.LanguageId).
+
+        </p>
+        <p>
+            @Html.ActionLink(BaseMvc.GetLabel("Sample", (Int16)ViewBag.LanguageId), "Play", "BestPriceHostel")
+        </p>
+    </div>
+</div>
+

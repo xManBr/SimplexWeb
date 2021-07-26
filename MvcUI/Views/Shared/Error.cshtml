@@ -1,0 +1,11 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("Error", (Int16)ViewBag.LanguageId);
+}
+
+<h1 class="text-danger">@BaseMvc.GetLabel("Error", (Int16)ViewBag.LanguageId).</h1>
+<h2 class="text-danger">@BaseMvc.GetLabel("AnErrorOccurredWhileProcessingYourRequest", (Int16)ViewBag.LanguageId).</h2>
+<h2 class="text-danger">@ViewBag.ErrorMessage</h2>
+

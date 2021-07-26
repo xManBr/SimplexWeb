@@ -1,0 +1,17 @@
+﻿@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("About", ViewBag.LanguageId);
+}
+<h2>@ViewBag.Title.</h2>
+
+
+<div class="row">
+    <div class="col-md-8">
+        <p>@BaseMvc.GetLabel("ThisApplicationForSimplexAlgorithmCalculationIsFreeOnlyForAcademicPurposes", ViewBag.LanguageId). @BaseMvc.GetLabel("TheAuthorIsNotLiableForResultsAssociatedForOtherPurposes", ViewBag.LanguageId).</p>
+  
+        <p>
+            @Html.ActionLink(BaseMvc.GetLabel("History", (Int16)ViewBag.LanguageId), "History", "Home")
+        </p>
+      </div>
+</div>

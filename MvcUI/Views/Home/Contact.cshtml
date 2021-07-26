@@ -1,0 +1,11 @@
+﻿@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("Contact", (Int16)ViewBag.LanguageId);
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<address>
+    <strong>@BaseMvc.GetLabel("Support", (Int16)ViewBag.LanguageId):</strong>   <a href="mailto:Support@example.com">Support@mercoplano.com</a><br />
+</address>

@@ -1,0 +1,106 @@
+﻿@model Mercoplano.Simplex.Server.MvcUI.Models.SimplexStartModel
+@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("Modeling", (Int16)ViewBag.LanguageId);
+    Layout = "~/Views/Shared/_LayoutPageBestPrice.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Simplex 2016-01 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1847611814626404"
+             data-ad-slot="6069916587"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+</div>
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("Modeling", "BestPriceHostel", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>@BaseMvc.GetLabel("ProfitOptimizationWithAccommodation", (Int16)ViewBag.LanguageId)</h4>
+                <hr />
+                @Html.ValidationSummary(true)
+
+                @Html.HiddenFor(m => Model.StepMethod)
+                @Html.HiddenFor(m => Model.Method)
+                @Html.HiddenFor(m => Model.VariLabel)
+                @Html.HiddenFor(m => Model.OriginalDecisionLength)
+                @Html.HiddenFor(m => Model.HasSolution)
+                @Html.HiddenFor(m => Model.IsFinish)
+
+                for (int i = 0; i < Model.LineDescrs.Count; i++)
+                {
+                    @Html.HiddenFor(model => Model.LineDescrs[i].Label)
+                }
+
+                //
+                for (int i = 0; i < Model.ColumnsDescrs.Count; i++)
+                {
+                    @Html.HiddenFor(model => Model.ColumnsDescrs[i].DisplayName)
+
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            <br />
+                            <details open>
+                                <summary><strong>@BaseMvc.GetLabel(Model.ColumnsDescrs[i].DisplayName, (Int16)ViewBag.LanguageId)</strong></summary>
+                                <p>@BaseMvc.GetLabel(Model.ColumnsDescrs[i].Description, (Int16)ViewBag.LanguageId)</p>
+
+                            </details>
+
+                            <div class="col-md-10">
+                                @for (int j = 0; j < Model.LineDescrs.Count; j++)
+                                {
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @if (!((i == 0) && (j == 0)))
+                                            {
+                                                if ((i == Model.ColumnsDescrs.Count - 1) && (j == 0))
+                                                {
+                                                    @Html.HiddenFor(model => Model.StartEquations[i].StartCoefficients[j].Number)
+                                                }
+                                                else
+                                                {
+                                                    @Html.EditorFor(model => Model.StartEquations[i].StartCoefficients[j].Number, new { htmlAttributes = new { @class = "form-control", @style = "width:99%; height:360px;" } })
+                                                    @Html.DisplayFor(model => Model.LineDescrs[j].Label)
+                                                }
+                                            }
+                                            else
+                                            {
+                                                @Html.HiddenFor(model => Model.StartEquations[i].StartCoefficients[j].Number)
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <p>
+                            <input type="submit" value="@BaseMvc.GetLabel("Next", (Int16)ViewBag.LanguageId)" class="btn btn-default" />
+                        </p>
+                    </div>
+                </div>
+
+            }
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+

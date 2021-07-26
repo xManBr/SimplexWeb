@@ -1,0 +1,161 @@
+﻿@model Mercoplano.Simplex.Server.MvcUI.Models.SimplexModel
+@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = "StepByStepTransMatrix";
+}
+
+<h2>StepByStepTransMatrix</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Simplex 2016-01 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1847611814626404"
+             data-ad-slot="6069916587"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+</div>
+
+
+@using (Html.BeginForm("StepByStepTransMatrix", "Simplex", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <h4>@BaseMvc.GetLabel("DualSimplexInequalities", (Int16)ViewBag.LanguageId)</h4>
+            <hr />
+        </div>
+    </div>
+
+    String lineStr = string.Empty;
+    String sign = String.Empty;
+    String label = String.Empty;
+    string valueStr = string.Empty;
+    foreach (var equation in Model.Equations)
+    {
+        for (int j = equation.Coefficients.Count() - 1; j >= 0; j--)
+        {
+            if ((equation.Coefficients[j].Number != 0) || (j == 0))
+            {
+                if ((j != 1) && (j != 0) && (equation.Coefficients[j].Number >= 0))
+                {
+                    sign = "+";
+                }
+                else
+                {
+                    sign = "";
+                }
+                if ((j == 0) && (equation.Coefficients[0].Number != 0))
+                {
+                    sign = "<=" + sign;
+                }
+                else if ((j == 0) && (equation.Coefficients[0].Number == 0))
+                {
+                    sign = "=" + sign;
+                }
+
+                label = j != 0 ? Model.ColumnsDescrs[j].Label : string.Empty;
+
+                if (j != 0)
+                {
+                    valueStr = equation.Coefficients[j].Number != 1 ? (equation.Coefficients[j].Number != -1 ? equation.Coefficients[j].Number.ToString() : "-") : string.Empty;
+                    lineStr = " " + sign + valueStr + label + lineStr;
+                }
+                else
+                {
+                    if (equation.Coefficients[0].Number != 0)
+                    {
+                        lineStr = lineStr + " " + sign + equation.Coefficients[j].Number;
+                    }
+                    else
+                    {
+                        lineStr = lineStr + " " + sign + BaseMvc.GetLabel("Max", (Int16)ViewBag.LanguageId);
+                    }
+                }
+            }
+        }
+        <div class="row">
+            <div class="col-md-12">
+                @Html.Label(lineStr)
+                @{lineStr = String.Empty;}
+            </div>
+        </div>
+
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+            @for (int j = 1; j < Model.ColumnsDescrs.Count(); j++)
+            {
+                @Html.DisplayFor(m => Model.ColumnsDescrs[j].Label)
+                if (j < (Model.ColumnsDescrs.Count() - 1))
+                {
+                    @Html.Label(",")
+                }
+            }
+            @Html.Label(">= 0")
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <p>
+                    <input type="submit" value="@BaseMvc.GetLabel("Next", (Int16)ViewBag.LanguageId)" class="btn btn-default" />
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden -->
+    @Html.HiddenFor(m => Model.StepMethod)
+    @Html.HiddenFor(m => Model.Goal)
+    @Html.HiddenFor(m => Model.Method)
+    @Html.HiddenFor(m => Model.StepByStep)
+    @Html.HiddenFor(m => Model.VariLabel)
+    @Html.HiddenFor(m => Model.OriginalDecisionLength)
+    @Html.HiddenFor(m => Model.IsFinish)
+    @Html.HiddenFor(m => Model.HasSolution)
+
+
+    for (int i = 0; i < Model.ColumnsDescrs.Count; i++)
+    {
+        @Html.HiddenFor(m => Model.ColumnsDescrs[i].Label)
+    }
+
+    for (int i = 0; i < Model.LineDescrs.Count; i++)
+    {
+        @Html.HiddenFor(m => Model.LineDescrs[i].Label)
+    }
+
+    <div class="row">
+        <div class="col-md-12">
+
+            @foreach (var columns in Model.ColumnsDescrs)
+            {
+                @Html.HiddenFor(m => columns.Label)
+            }
+
+        </div>
+    </div>
+
+    for (int i = 0; i < Model.Equations.Count; i++)
+    {
+        @Html.HiddenFor(m => Model.Equations[i].RetrictionSign)
+        <div class="row">
+            <div class="col-md-12">
+                @for (int j = 0; j < Model.Equations[i].Coefficients.Count; j++)
+                {
+                    @Html.HiddenFor(m => Model.Equations[i].Coefficients[j].Number)
+                }
+            </div>
+        </div>
+    }
+}
+

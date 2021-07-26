@@ -1,0 +1,102 @@
+﻿@model IEnumerable<Mercoplano.Simplex.Server.MvcUI.Entity.InteresseSelectResult>
+@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("FindBestPrice", ViewBag.LanguageId);
+    Layout = "~/Views/Shared/_LayoutPageBestPrice.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Simplex 2016-01 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1847611814626404"
+             data-ad-slot="6069916587"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("Interesse", "BestPriceHostel", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>@BaseMvc.GetLabel("FindBestPrice", ViewBag.LanguageId)</h4>
+                <hr />
+
+                <div class="form-group">
+                    @Html.Label(BaseMvc.GetLabel("Interesse", (Int16)ViewBag.LanguageId), new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        <input class="form-control" id="textSearch" name="textSearch" type="text" value="" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <p>
+                            <input type="submit" value="@BaseMvc.GetLabel("Procurar", (Int16)ViewBag.LanguageId)" class="btn btn-default" />
+                        </p>
+                    </div>
+                </div>
+
+            }
+        </section>
+    </div>
+</div>
+
+<div class="row">
+
+    <div class="col-md-12">
+        <h4>@Html.Label("Últimos assuntos pesquisados")</h4>
+        <hr />
+        <!-- body lista de produtos procurados -->
+        <div class="form-group">
+            @{ 
+                Int16 itensnr = 0;
+                String interesseAnt = String.Empty;
+            }
+           
+            @foreach (var item in Model)
+            {                
+                if (itensnr >= 50)
+                {
+                    break;
+                }
+
+                if (interesseAnt != item.Interesse)
+                { 
+                var link = "https://www.google.com.br/search?q=" + item.Interesse + "&source=lnms&tbm=shop";
+                <div class="col-md-10">
+                    <a href="@link">@Html.DisplayFor(modelItem => item.Interesse)</a>
+                </div>
+                    itensnr++;
+                }
+                interesseAnt = item.Interesse;
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Simplex 2016-01 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1847611814626404"
+             data-ad-slot="6069916587"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+    </div>
+</div>

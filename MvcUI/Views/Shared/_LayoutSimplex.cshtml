@@ -1,0 +1,93 @@
+﻿@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+
+    <meta name="description" content="Simplex Algorithm Method Calculator for Linear Programming">
+    <meta name="keywords" content="simplex online, simplex online step by step, simplex online passo a passo, PHP, Simplex, Play, Rodar, Algorithm, Method, Calculator, Linear, Programming, Algoritmo, Método, calculadora, Programação, Algorithme, Méthode, Calculatrice, linéaire, programmation, Lineal, Programación">
+    <meta name="author" content="Laerte Nascimento">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title -Simplex</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script>
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-72650624-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("SimplexPlay.com", "Index", "Home", null, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("Home", (Int16)ViewBag.LanguageId), "Index", "Home")</li>
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("Optimize", (Int16)ViewBag.LanguageId), "Play", "Simplex")</li>
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("History", (Int16)ViewBag.LanguageId), "History", "Home")</li>
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("Sample", (Int16)ViewBag.LanguageId), "Play", "BestPriceHostel")</li>
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("News", (Int16)ViewBag.LanguageId), "News", "RFB")</li>
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("About", (Int16)ViewBag.LanguageId), "About", "Home")</li>
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("Contact", (Int16)ViewBag.LanguageId), "Contact", "Home")</li>
+                    <li>@Html.ActionLink(BaseMvc.GetLabel("Language", (Int16)ViewBag.LanguageId), "Change", "Language")</li>
+                </ul>
+                <!-- Html.Partial("_LoginPartial")-->
+            </div>
+        </div>
+    </div>
+
+    @RenderBody()
+    <hr />
+    <footer>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav navbar-nav">
+                        <li>@Html.RouteLink("Português", "LanguageChange", new { id = 1 })</li>
+                        <li>@Html.RouteLink("English", "LanguageChange", new { id = 2 })</li>
+                        <li>@Html.RouteLink("Español", "LanguageChange", new { id = 3 })</li>
+                        <li>@Html.RouteLink("Français", "LanguageChange", new { id = 4 })</li>
+                        <li>@Html.RouteLink("Deutsch", "LanguageChange", new { id = 5 })</li>
+                        <li>@Html.RouteLink("Italiano", "LanguageChange", new { id = 6 })</li>
+                        <li>@Html.RouteLink("Afrikaans", "LanguageChange", new { id = 7 })</li>
+                        <li>@Html.RouteLink("日本人", "LanguageChange", new { id = 8 })</li>
+                        <li>@Html.RouteLink("العربية", "LanguageChange", new { id = 9 })</li>
+                        <li>@Html.RouteLink("中国", "LanguageChange", new { id = 10 })</li>
+                        <li>@Html.RouteLink("русский", "LanguageChange", new { id = 11 })</li>
+                        <li>@Html.RouteLink("रूसी", "LanguageChange", new { id = 12 })</li>
+                        <li>@Html.RouteLink("中國", "LanguageChange", new { id = 13 })</li>
+
+                    </ul>
+                    <!-- Html.Partial("_LoginPartial")-->
+                </div>
+            </div>
+        </div>
+        <p>&copy; @DateTime.Now.Year - Mercoplano</p>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
+
+

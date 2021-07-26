@@ -1,0 +1,67 @@
+﻿@model Mercoplano.Simplex.Server.MvcUI.Models.InitialSimplexViewModel
+@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("Optimize", ViewBag.LanguageId);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Simplex 2016-01 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1847611814626404"
+             data-ad-slot="6069916587"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+    </div>
+</div>
+
+<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-md-12">
+        <section id="loginForm">
+            @using (Html.BeginForm("Play", "Simplex", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>@BaseMvc.GetLabel("RangeOfYourProblem", ViewBag.LanguageId)</h4>
+                <hr />
+                @Html.ValidationSummary(true)
+
+                <div class="form-group">
+                    @Html.Label(BaseMvc.GetLabel("NumberOfDecisionVariables", (Int16)ViewBag.LanguageId), new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.DecisionVariables, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.DecisionVariables)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.Label(BaseMvc.GetLabel("NumberOfRestraints", (Int16)ViewBag.LanguageId), new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.RestrictionsVariables, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.RestrictionsVariables)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <p>
+                            <input type="submit" value="@BaseMvc.GetLabel("Next", (Int16)ViewBag.LanguageId)" class="btn btn-default" />
+                        </p>
+                    </div>
+                </div>
+
+                <p>
+                    @Html.ActionLink(BaseMvc.GetLabel("Help", (Int16)ViewBag.LanguageId), "Help") @BaseMvc.GetLabel("IfYouNeedHelp", ViewBag.LanguageId) .
+                </p>
+            }
+        </section>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,21 @@
+﻿@model Mercoplano.Simplex.Server.MvcUI.Models.LanguageModel
+@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("LanguageChange", (Int16)ViewBag.LanguageId);
+}
+
+
+<div id="page-wrapper">
+    <div id="page" class="container">
+        <h2>@ViewBag.Title</h2>
+        <br />
+        <div id="content">
+            @using (Html.BeginForm("Change", "Language", FormMethod.Post))
+            {
+                @Html.DropDownListFor(m => m.Id, new SelectList(ViewBag.Language, "value", "text"))
+                <input id="btnChangeLanguage" type="submit" value='@BaseMvc.GetLabel("Send", (Int16)ViewBag.LanguageId)' />
+            }
+        </div>
+    </div>
+</div>

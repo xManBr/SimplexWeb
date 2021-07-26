@@ -1,0 +1,285 @@
+﻿@model Mercoplano.Simplex.Server.MvcUI.Models.SimplexModel
+@using Mercoplano.Simplex.Server.MvcUI.Controllers;
+
+@{
+    ViewBag.Title = BaseMvc.GetLabel("Solve", (Int16)ViewBag.LanguageId);
+
+    for (int i = 0; i < Model.Equations.Count; i++)
+    {
+        for (int j = 0; j < Model.Equations[i].Coefficients.Count; j++)
+        {
+            Model.Equations[i].Coefficients[j].Number = Math.Round(Model.Equations[i].Coefficients[j].Number, 6);
+        }
+    }
+
+    for (int j = 1; j < Model.WindowIntervals.Count; j++)
+    {
+        Model.WindowIntervals[j].Start = Math.Round(Model.WindowIntervals[j].Start, 6);
+        Model.WindowIntervals[j].End = Math.Round(Model.WindowIntervals[j].End, 6);
+    }
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="row">
+
+    <div class="col-md-4">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Simplex 2016-01 -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1847611814626404"
+             data-ad-slot="6069916587"
+             data-ad-format="auto"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+</div>
+
+<h4>@BaseMvc.GetLabel("ProfitOptimizationWithAccommodation", (Int16)ViewBag.LanguageId)</h4>
+<hr />
+@{
+    bool hasSolution = true;
+    for (int i = 1; i < Model.Equations.Count; i++)
+    {
+        if (Model.Equations[i].Coefficients[0].Number < 0)
+        {
+            hasSolution = false;
+            break;
+        }
+    }
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @if ((Model.Equations[0].Coefficients[0].Number == 0) || (!hasSolution))
+        {
+            @Html.Label(BaseMvc.GetLabel("NotSolveForOptimalSolutionUntil100Iterations", (Int16)ViewBag.LanguageId))
+        }
+        else
+        {
+            @Html.Label(BaseMvc.GetLabel("ResolutionForOptimumSolution", (Int16)ViewBag.LanguageId))
+        }
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        <details open>
+            <summary><strong>@BaseMvc.GetLabel("Solve", (Int16)ViewBag.LanguageId)</strong></summary>
+            <p>@BaseMvc.GetLabel("greatsolutionandsuggestedaccommodationforthisproposal", (Int16)ViewBag.LanguageId)</p>
+        </details>
+    </div>
+</div>
+
+<div class="col-md-12">
+    @{  for (int i = 0; i < Model.Equations.Count; i++)
+      {
+          if (Model.LineDescrs[i].Type != "R")
+          {
+            <div class="row">
+                <div class="col-md-12">
+                    @if (i != 0)
+                    {
+                        <strong>
+                            @BaseMvc.GetLabel("Units", (Int16)ViewBag.LanguageId)
+                            @Html.Label("-")
+                            @Html.DisplayFor(m => Model.LineDescrs[i].Label)
+                        </strong>
+                    }
+                    else
+                    {
+                        <strong>
+                            @BaseMvc.GetLabel("MaximumRevenue", (Int16)ViewBag.LanguageId)
+                        </strong>
+                    }
+                </div>
+
+                <div class="col-md-12">
+                    @Html.TextBoxFor(m => Model.Equations[i].Coefficients[0].Number, new { @readonly = "readonly" })
+                </div>
+            </div>
+          }
+      }
+    }
+
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        <details open>
+            <summary><strong>@BaseMvc.GetLabel("Remainder", (Int16)ViewBag.LanguageId)</strong></summary>
+            <p>@BaseMvc.GetLabel("ValuesOfTheRestrictionsThatAreNotUsing", (Int16)ViewBag.LanguageId)</p>
+        </details>
+
+    </div>
+</div>
+
+<div class="col-md-12">
+    @{  for (int i = 0; i < Model.Equations.Count; i++)
+      {
+          if (Model.LineDescrs[i].Type == "R")
+          {
+            <div class="row">
+                <div class="col-md-12">
+                    @if (Model.LineDescrs[i].Label.Contains("TotalAccommodation"))
+                    {
+                        string[] label = Model.LineDescrs[i].Label.Split('-');
+                        <strong>
+                            @BaseMvc.GetLabel(label[0], (Int16)ViewBag.LanguageId)
+                            @Html.Label("-")
+                            @label[1]
+                        </strong>
+                    }
+                    else
+                    {
+                        <strong>@BaseMvc.GetLabel(Model.LineDescrs[i].Label, (Int16)ViewBag.LanguageId)</strong>
+                    }
+                </div>
+
+                <div class="col-md-12">
+                    @Html.TextBoxFor(m => Model.Equations[i].Coefficients[0].Number, new { @readonly = "readonly" })
+                </div>
+            </div>
+          }
+      }
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        <details open>
+            <summary><strong>@BaseMvc.GetLabel("BestCost", (Int16)ViewBag.LanguageId)</strong></summary>
+            <p>@BaseMvc.GetLabel("ValueToBeImprovedSoThatTheAccommodationComposeTheOptimalSolution", (Int16)ViewBag.LanguageId)</p>
+        </details>
+    </div>
+</div>
+
+<div class="col-md-12">
+
+    @for (int j = 1; j < Model.OriginalDecisionLength + 1; j++)
+    {
+        if (Model.Equations[0].Coefficients[j].Number > 0)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <strong>
+                        @Model.ColumnsDescrs[j].DisplayName
+                    </strong>
+                </div>
+
+                <div class="col-md-12">
+                    @if (Model.Goal == "Max(p)")
+                    {
+                        @Html.Label("+")
+                    }
+                    else
+                    {
+                        @Html.Label("-")
+                    }
+                    @Html.TextBoxFor(m => Model.Equations[0].Coefficients[j].Number, new { @readonly = "readonly" })
+                </div>
+
+            </div>
+        }
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        <details open>
+            <summary><strong>@BaseMvc.GetLabel("ShadowPrice", (Int16)ViewBag.LanguageId)</strong></summary>
+            <p>@BaseMvc.GetLabel("ValueThatWillBeChangedInTheOptimalSolutionToEachUnitMovedInRestriction", (Int16)ViewBag.LanguageId)</p>
+        </details>
+    </div>
+</div>
+
+<div class="col-md-12">
+
+    @for (int j = Model.OriginalDecisionLength + 1; j < Model.ColumnsDescrs.Count; j++)
+    {
+        if (Model.Equations[0].Coefficients[j].Number > 0)
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    @if (Model.ColumnsDescrs[j].DisplayName.Contains("TotalAccommodation"))
+                    {
+                        string[] label = Model.ColumnsDescrs[j].DisplayName.Split('-');
+                        <strong>
+                            @BaseMvc.GetLabel(label[0], (Int16)ViewBag.LanguageId)
+                            @Html.Label("-")
+                            @label[1]
+                        </strong>
+                    }
+                    else
+                    {
+                        <strong>@BaseMvc.GetLabel(Model.ColumnsDescrs[j].DisplayName, (Int16)ViewBag.LanguageId)</strong>
+                    }
+                </div>
+
+                <div class="col-md-12">
+                    @Html.TextBoxFor(m => Model.Equations[0].Coefficients[j].Number, new { @readonly = "readonly" })
+                </div>
+
+            </div>
+        }
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <br />
+        <details open>
+            <summary><strong>@BaseMvc.GetLabel("WindowInterval", (Int16)ViewBag.LanguageId)</strong></summary>
+            <p>@BaseMvc.GetLabel("ChangeTheRestrictionCanAchieveWithoutTheShadowPriceChangeValue", (Int16)ViewBag.LanguageId)</p>
+        </details>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @for (int j = Model.OriginalDecisionLength + 1; j < Model.Equations[0].Coefficients.Count; j++)
+        {
+            <div class="col-md-12">
+                @if (Model.ColumnsDescrs[j].DisplayName.Contains("TotalAccommodation"))
+                {
+                    string[] label = Model.ColumnsDescrs[j].DisplayName.Split('-');
+                    <strong>
+                        @BaseMvc.GetLabel(label[0], (Int16)ViewBag.LanguageId)
+                        @Html.Label("-")
+                        @label[1]
+                    </strong>
+                }
+                else
+                {
+                    <strong>@BaseMvc.GetLabel(Model.ColumnsDescrs[j].DisplayName, (Int16)ViewBag.LanguageId)</strong>
+                }
+            </div>
+            <div class="col-md-12">
+                @BaseMvc.GetLabel("Original", (Int16)ViewBag.LanguageId):
+                @Html.DisplayFor(m => Model.RestrictionLimits[j - Model.OriginalDecisionLength - 1].Sign)
+                @Html.DisplayFor(m => Model.RestrictionLimits[j - Model.OriginalDecisionLength - 1].Number)
+            </div>
+            <div class="col-md-12">
+                @BaseMvc.GetLabel("Interval", (Int16)ViewBag.LanguageId):
+                @Html.DisplayFor(m => Model.WindowIntervals[j - Model.OriginalDecisionLength - 1].Start)
+                @Html.Label("<=>")
+                @if ((Model.WindowIntervals[j - Model.OriginalDecisionLength - 1].End == null) || (Model.WindowIntervals[j - Model.OriginalDecisionLength - 1].End == 0))
+                {
+                    @BaseMvc.GetLabel("Infinit", (Int16)ViewBag.LanguageId)
+                }
+                else
+                {
+                    @Html.DisplayFor(m => Model.WindowIntervals[j - Model.OriginalDecisionLength - 1].End)
+                }
+
+            </div>
+        }
+    </div>
+</div>
